@@ -22,12 +22,30 @@ function App() {
   
   // watch youtube on how useEffect works (what does each arg mean and how is it used)
   useEffect(getListings, [])
-  
+
+  const [search, setSearch] = useState("");
+
+  // every time we submit the search form, our state variable gets changed
+  // by the "setSearch" function
+  const updateSearch = (newValue) => setSearch(newValue.toLowerCase());
+
+  // every time the state variable changes, we get a re-render and this
+  // variable get reassigned
+  const filteredListings = listings.filter((listingObj) => {
+    // console.log(listingObj.description)
+    // console.log(search)
+    if (listingObj.description.toLowerCase().includes(search)) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
   return (
     <div className="app">
-      <Header />
+      <Header updateSearch={updateSearch}/>
       <ListingsContainer 
-        listings={listings}
+        listings={filteredListings}
         deleteListing={deleteListing}
       />
     </div>
